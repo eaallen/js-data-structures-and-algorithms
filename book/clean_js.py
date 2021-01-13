@@ -16,6 +16,6 @@ with open(input_file, "r") as f:
 					break
 				i += 1
 				#print(i)
-			print (" ".join(a_line[i+1:])
+			print(" ".join(a_line[i+1:])
 
 			w_f.write(" ".join(a_line[i+1:]) + "\n")
