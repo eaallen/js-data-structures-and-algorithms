@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Equality Comparisons</title>
+    <style>
+        .code {
+            color: blue; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Javascript Equality Comparisons</h1>
+    <h4>This is a little Javascript program to demonstrate the 
+        difference between <br>the assignment operator ( = )
+        and the equality operators ( == and === )
+    </h4>
+    <p>
+        <span style="font-weight: bold;">The variables are: </span>
+        <span class="code">
+        <br><br>a = 0; <br>
+        b = 1; <br>
+        c = "0"; <br>
+        </span>
+    </p>
+    <span style="font-weight: bold;">
+    <p>The results of comparisons:</p>
+    </span>
+    <p id="results"></p>
+    <script>
+        //declare test variables and provide a function
+        //to put them back to original values 
+        var a, b, c;
+        function resetVariables() {
+            a = 0;
+            b = 1;
+            c = "0";
+        }
+        var results = "";
+        // examples of using conditional expressions
+        // using the assignment operators
+        results += '<span class="code">';    
+        resetVariables();
+        if(a = b) {results += "if(a = b) is true <br>";}
+            else {results += "if(a = b) is false <br>";}
+        resetVariables();
+        if(b = a) {results += "if(b = a) is true <br>";}
+        else {results += "if(b = a) is false <br>";}
+        results += "</span><br>"
+        results += '<span style="color: green";>';
+        results += "When an assignment operator is used<br> ";
+        results += "in place of a comparison operator, <br>";
+        results += "the result is true if the result<br> of the assignment is non-zero"
+        results += "</span><br><br>"
+        // double equal symbol examples
+        results += '<span class="code">';
+        resetVariables();
+        if(a == b) {results += "if(a == b) is true <br>";}
+        else {results += "if(a == b) is false <br>";}
+        resetVariables();
+        if(b == a) {results += "if(b == a) is true <br>";}
+        else {results += "if(b == a) is false <br>";}        
+        resetVariables();
+        if(a == c) {results += "if(a == c) is true <br>";}
+        else {results += "if(a == c) is false <br>";}
+        resetVariables();
+        if(c == a) {results += "if(c == a) is true <br>";}
+        else {results += "if(c == a) is false <br>";} 
+        results += "</span><br>"  
+        results += '<span style="color: Green";>';
+        results += "When the == operator is used <br> ";
+        results += "one side is converted, if necessary,<br>";
+        results += "to make both sides the same data type <br>";
+        results += "before the comparison</span><br><br>"
+        // triple equal symbol examples
+        results += '<span class="code">';
+        resetVariables();
+        if(a === c) {results += "if(a === c) is true <br>";}
+        else {results += "if(a === c) is false <br>";}
+        resetVariables();
+        if(c === a) {results += "if(c === a) is true <br>";}
+        else {results += "if(c === a) is false <br>";} 
+        results += '</span><br>'
+        results += '<span style="color: green";>';
+        results += "When the === operator is used <br> ";
+        results += "no conversion takes place <br>";
+        results += "and comparing different types results false"
+        results += "</span><br><br>"
+        results += "</span>"
+        document.getElementById("results").innerHTML = results;
+    </script>
+</body>
+</html>
