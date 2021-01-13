@@ -39,8 +39,8 @@ var trie = new Trie();
 trie.insert("sammie");
 trie.insert("simran");
 trie.search("simran"); // true
-trie.search(“fake”) // false
-trie.search(“sam”) // false
+trie.search('fake') // false
+trie.search('sam') // false
 
 
 Trie.prototype.delete = function(word) {
