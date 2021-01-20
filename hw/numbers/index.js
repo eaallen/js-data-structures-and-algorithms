@@ -19,17 +19,27 @@ function isPrime(n) {
 }
 
 
-console.table({
-    "decimal rounding errors:  0.1+ 0.2 === 0.3": 0.1 + 0.2 === 0.3,
-    'useing Number.EPSILON 0.1+ 0.2 === 0.3': numberEquals(0.1 + 0.2, 0.3),
-    isPrime: isPrime(00000111111000011100)
+// console.table({
+//     "decimal rounding errors:  0.1+ 0.2 === 0.3": 0.1 + 0.2 === 0.3,
+//     'useing Number.EPSILON 0.1+ 0.2 === 0.3': numberEquals(0.1 + 0.2, 0.3),
+//     isPrime: isPrime(00000111111000011100)
 
 
-})
+// })
 
 
 let f ={
     f1:function(){return 1},
     f2:function(){console.log(this.f1())}
 }
-f.f2()
+// f.f2()
+
+
+// testing strings
+
+let num = Math.floor(Math.random()*3)
+const str_template = {
+    head:[`you have ${num} new message(s)` ],
+    body:[],
+    foot:[],
+}
