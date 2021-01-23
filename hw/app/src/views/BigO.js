@@ -5,18 +5,27 @@ import { Line } from 'react-chartjs-2'
 export function bigOCalculator(func) {
     const t0 = performance.now()
     const time_keeper = [0]
-    const timeKeeper = function () {
-        console.log(typeof t0)
+    const timeKeeper = function (iter, number) {
         time_keeper.push((performance.now() - t0))
     }
     func(timeKeeper)
     return time_keeper
 }
 
+function trimTimeKeeper(n, time_keeper) {
+    if (n > 500) {
+        let first_position = 0
+        let last_position = time_keeper.length - 1
+        let arr = time_keeper.slice(first_position+1, last_position)
+
+
+
+    }
+}
+
 export default function BigO() {
     const [work, setWork] = React.useState(10)
     const [update, forceUpdate] = React.useState(false)
-    console.log(work, '<---')
     const arr = Array(work)
     for (let i = 0; i < arr.length; i++) {
         arr[i] = i
@@ -26,14 +35,14 @@ export default function BigO() {
 
     const liner = function (recordTime) {
         for (let i = 0; i < n; i++) {
-            recordTime()
+            recordTime(i, n)
         }
     }
 
     const quadratic = function (recordTime) {
         for (let i = 0; i < n; i++) {
             for (let j = i; j < n; j++) { }
-            recordTime()
+            recordTime(i, n)
         }
     }
 
@@ -42,13 +51,13 @@ export default function BigO() {
             for (let j = i; j < n; j++) {
                 for (let k = j; k < n; k++) { }
             }
-            recordTime()
+            recordTime(i, n)
         }
     }
 
     const log = function (recordTime) {
         for (let i = 2; i <= n; i = i * 2) {
-            recordTime()
+            recordTime(i, n)
         }
     }
 
@@ -94,7 +103,7 @@ export default function BigO() {
                 options={{
                     title: {
                         display: true,
-                        text: "Correct Rating of Labels per Rater per Day",
+                        text: "BigO Calculator",
                         fontSize: 20
                     },
 
@@ -106,6 +115,8 @@ export default function BigO() {
                 <option value={100}>100</option>
                 <option value={500}>500</option>
                 <option value={1000}>1000</option>
+                <option value={3000}>3000</option>
+                <option value={5000}>5000</option>
             </select>
             <button onClick={() => forceUpdate(update => update = !update)}>Re-Calculate</button>
             <h1>{work}</h1>

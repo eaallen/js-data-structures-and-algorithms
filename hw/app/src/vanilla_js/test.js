@@ -1,7 +1,18 @@
-import {bigOCalculator} from '../views/BigO'
+// import {bigOCalculator} from '../views/BigO'
 console.log('this test is comming from the vanilla js folder')
 
 const n = 100
+function bigOCalculator(func) {
+    const t0 = performance.now()
+    const time_keeper = [0]
+    const timeKeeper = function () {
+        console.log(typeof t0)
+        time_keeper.push((performance.now() - t0))
+    }
+    func(timeKeeper)
+    return time_keeper
+}
+
 const quibic = function (recordTime) {
     for (let i = 0; i < n; i++) {
         for (let j = i; j < n; j++) {
@@ -16,9 +27,9 @@ const log = function (recordTime) {
         recordTime()
     }
 }
-
-console.table({
-    log:bigOCalculator(quibic).reduce((a,b)=>a+b),
-    quibic:bigOCalculator(log).reduce((a,b)=>a+b)
-})
+const time = {
+    qubic: bigOCalculator(quibic).reduce((a, b) => a + b),
+    log: bigOCalculator(log).reduce((a, b) => a + b)
+}
+console.table(time)
 
