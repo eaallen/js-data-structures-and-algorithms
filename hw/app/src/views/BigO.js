@@ -12,20 +12,10 @@ export function bigOCalculator(func) {
     return time_keeper
 }
 
-function trimTimeKeeper(n, time_keeper) {
-    if (n > 500) {
-        let first_position = 0
-        let last_position = time_keeper.length - 1
-        let arr = time_keeper.slice(first_position+1, last_position)
-
-
-
-    }
-}
 
 export default function BigO() {
     const [work, setWork] = React.useState(10)
-    const [update, forceUpdate] = React.useState(false)
+    const [, forceUpdate] = React.useState(false)
     const arr = Array(work)
     for (let i = 0; i < arr.length; i++) {
         arr[i] = i

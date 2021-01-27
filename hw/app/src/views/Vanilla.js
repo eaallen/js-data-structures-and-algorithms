@@ -1,6 +1,8 @@
-import react from "react";
-import '../vanilla_js/test'
+import {Recursion} from "../vanilla_js";
+
 
 export default function Vanilla(props){
-    return <p>This is for vanilla JS</p>
+    Recursion.fibonacci(100)
+
+    return (<p>This is for vanilla JS</p>)
 }
