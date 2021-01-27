@@ -6,7 +6,7 @@ function App() {
       case 'BigO':
         return <BigO/>
       default:
-        <Vanilla/>
+        return <Vanilla/>
     }
   }
   return (
