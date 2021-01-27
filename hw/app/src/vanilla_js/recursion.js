@@ -81,7 +81,7 @@ const pt = pascaleTriangle(5, 2)
 
 
 function pow(x, n) {
-    if (n == 1) {
+    if (n === 1) {
         return x;
     } else {
         let y = pow(x, n - 1)
@@ -90,13 +90,13 @@ function pow(x, n) {
     }
 }
 
-function recursionTest(val1) {
+function recursionTest(val1, o) {
     if (val1 >= 20) {
-        return ;
+        return o;
     } else {
         val1 += 5;
-        console.log('val1',val1)
-        recursionTest(val1);
+        o += '<br>' + val1
+        return recursionTest(val1, o);
     }
 }
 
@@ -105,8 +105,7 @@ console.table({
     pascaleTriangle: pt,
     decimalToBinary: decimalToBinary(100024523146321010101011023498191921038423923402352534635634600),
     betterDecemialToBinary: betterDecemialToBinary(100024523146321010101011023498191921038423923402352534635634600),
-    pow: pow(2, 4)
+    pow: pow(2, 4),
+    recursionTest: recursionTest(0, '')
 })
 
-
-recursionTest(0)
