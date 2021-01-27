@@ -88,15 +88,25 @@ function pow(x, n) {
         console.log(y)
         return x * y;
     }
-} 
+}
+
+function recursionTest(val1) {
+    if (val1 >= 20) {
+        return ;
+    } else {
+        val1 += 5;
+        console.log('val1',val1)
+        recursionTest(val1);
+    }
+}
+
 
 console.table({
     pascaleTriangle: pt,
     decimalToBinary: decimalToBinary(100024523146321010101011023498191921038423923402352534635634600),
     betterDecemialToBinary: betterDecemialToBinary(100024523146321010101011023498191921038423923402352534635634600),
-    pow: pow(2,4)
+    pow: pow(2, 4)
 })
 
 
-debugger
-pow(2,4)
+recursionTest(0)
