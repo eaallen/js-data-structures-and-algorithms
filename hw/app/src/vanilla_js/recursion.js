@@ -38,11 +38,11 @@ function pascaleTriangle(row, col) {
 //1 5 10
 // 
 
-function timeIt(func){
+function timeIt(func) {
     let t0 = performance.now()
     func(100024523146321010101011023498191921038423923402352534635634600)
     let t1 = performance.now()
-    return t1 - t0 
+    return t1 - t0
 }
 
 
@@ -73,12 +73,30 @@ function betterDecemialToBinary(n) {
     return str
 }
 
-console.log(' his',timeIt(decimalToBinary))
-console.log('Mine',timeIt(betterDecemialToBinary))
+console.log(' his', timeIt(decimalToBinary))
+console.log('Mine', timeIt(betterDecemialToBinary))
 
 const pt = pascaleTriangle(5, 2)
+
+
+
+function pow(x, n) {
+    if (n == 1) {
+        return x;
+    } else {
+        let y = pow(x, n - 1)
+        console.log(y)
+        return x * y;
+    }
+} 
+
 console.table({
     pascaleTriangle: pt,
     decimalToBinary: decimalToBinary(100024523146321010101011023498191921038423923402352534635634600),
-    betterDecemialToBinary: betterDecemialToBinary(100024523146321010101011023498191921038423923402352534635634600)
+    betterDecemialToBinary: betterDecemialToBinary(100024523146321010101011023498191921038423923402352534635634600),
+    pow: pow(2,4)
 })
+
+
+debugger
+pow(2,4)
