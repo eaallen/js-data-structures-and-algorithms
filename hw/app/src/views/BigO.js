@@ -46,14 +46,14 @@ export default function BigO() {
         }
     }
 
-    // const quibic = function (recordTime) {
-    //     for (let i = 0; i < n; i++) {
-    //         for (let j = i; j < n; j++) {
-    //             for (let k = j; k < n; k++) { }
-    //         }
-    //         recordTime(i, n)
-    //     }
-    // }
+    const quibic = function (recordTime) {
+        for (let i = 0; i < n; i++) {
+            for (let j = i; j < n; j++) {
+                for (let k = j; k < n; k++) { }
+            }
+            recordTime(i, n)
+        }
+    }
 
     const log = function (recordTime) {
         for (let i = 2; i <= n; i = i * 2) {
@@ -79,13 +79,13 @@ export default function BigO() {
                 data: bigOCalculator(quadratic),
                 fill: false,
             },
-            // {
-            //     label: 'Quibic',
-            //     backgroundColor: 'rgba(0, 0, 255,0.5)',
-            //     borderColor: 'rgba(0,0,255,0.5)',
-            //     data: bigOCalculator(quibic),
-            //     fill: false,
-            // },
+            {
+                label: 'Quibic',
+                backgroundColor: 'rgba(0, 0, 255,0.5)',
+                borderColor: 'rgba(0,0,255,0.5)',
+                data: bigOCalculator(quibic),
+                fill: false,
+            },
             {
                 label: 'Log',
                 backgroundColor: 'rgba(0, 255, 255,0.5)',
