@@ -41,7 +41,7 @@
             }
             console.log(scriptureWords)
 
-
+            // get portions of an array by accessing the index
             function slice(array, from_idx = 0, to_idx = array.length) {
                 const returned_array = []
                 console.log('from_idx', from_idx)
@@ -52,6 +52,7 @@
                 return returned_array
             }
 
+            // joins an array via the spesified string 
             function join(array, joiner = ',') {
                 let str = ''
                 for (let i = 0; i < array.length - 1; i++) {
