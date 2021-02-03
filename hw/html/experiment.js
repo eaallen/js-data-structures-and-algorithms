@@ -4,7 +4,6 @@
 // 2. a string compare
 // 3. a regex compare
 const pureCharCompare = (str, test_char = 'A') => {
-
     for (let i = 0; i < str.length; i++) {
         str[i] === test_char
     }
@@ -21,6 +20,11 @@ const stringIncludesCompare = (str, test_char = 'A') => {
         str.includes(test_char)
     }
 }
+const stringMatchCompare = (str, test_char = 'A') => {
+    for (let i = 0; i < str.length; i++) {
+        str.match(test_char)
+    }
+}
 
 
 const regexCompare_test = (str, test_regex = /A/g) => {
@@ -30,7 +34,8 @@ const regexCompare_test = (str, test_regex = /A/g) => {
 }
 
 const regexCompare_exec = (str, test_char = /A/g) => {
-    while ((test_char.exec(str)) !== null) { }
+    let array1;
+    while ((array1 = test_char.exec(str)) !== null) { }
 }
 
 
@@ -38,16 +43,18 @@ const charCompareSpeed = () => {
     // init data
     const str = document.getElementById('1Nephi8').innerHTML
 
-    const _pureCharCompare = timeIt(() => {pureCharCompare(str)})
-    const _stringCompare = timeIt(() => stringCompare(str))
-    const _stringIncludesCompare = timeIt(() => stringIncludesCompare(str))
-    const _regexCompare_test = timeIt(() => regexCompare_test(str))
-    const _regexCompare_exec = timeIt(() => regexCompare_exec(str))
+    const _pureCharCompare = timeTest(() => {pureCharCompare(str)})
+    const _stringCompare = timeTest(() => stringCompare(str))
+    const _stringIncludesCompare = timeTest(() => stringIncludesCompare(str))
+    const _stringMatchCompare = timeTest(() => stringMatchCompare(str))
+    const _regexCompare_test = timeTest(() => regexCompare_test(str))
+    const _regexCompare_exec = timeTest(() => regexCompare_exec(str))
 
     console.table({
         pureCharCompare: _pureCharCompare,
         stringCompare: _stringCompare,
         stringIncludesCompare: _stringIncludesCompare,
+        stringMatchCompare: _stringMatchCompare,
         regexCompare_test: _regexCompare_test,
         regexCompare_exec: _regexCompare_exec,
 
@@ -55,6 +62,17 @@ const charCompareSpeed = () => {
 
 }
 
-
+function timeTest(func) {
+    const times = []
+    for (let i = 0; i < 20000; i++) {
+        const t0 = performance.now()
+        func()
+        const t1 = performance.now()
+        times.push(t1 - t0)
+    }
+    const avg = times.reduce((a, b) => a + b, 0) / times.length
+    // console.table({ 'Average time of extractWords per 20,000 iterations': avg })
+    return avg
+}
 
 charCompareSpeed()
