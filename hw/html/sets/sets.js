@@ -7,9 +7,9 @@ class MySet extends Set {
 
     // First, the intersection of two sets consists of the common elements between those two sets. 
     // This function returns a set with common elements between two sets:
-    intersectSets(setA, setB = this) {
+    intersectSets(setA, this_set = this) {
         var intersection = new Set();
-        for (var elem of setB) {
+        for (var elem of this_set) {
             if (setA.has(elem)) {
                 intersection.add(elem);
             }
@@ -18,9 +18,9 @@ class MySet extends Set {
     }
 
     // A super set is a set that has all of the elements that another set has
-    isSuperset(setA, subset = this) {
-        for (var elem of subset) {
-            if (!setA.has(elem)) {
+    isSuperset(setA, this_set = this) {
+        for (var elem of setA) {
+            if (!this_set.has(elem)) {
                 return false;
             }
         }
@@ -28,18 +28,18 @@ class MySet extends Set {
     }
 
     // Add the elelmts of one set to the other 
-    unionSet(setA, setB = this) {
+    unionSet(setA, this_set = this) {
         var union = new Set(setA);
-        for (var elem of setB) {
+        for (var elem of this_set) {
             union.add(elem);
         }
         return union;
     }
 
     // returns the differance between two sets 
-    differenceSet(setA, setB = this) {
+    differenceSet(setA, this_set = this) {
         var difference = new Set(setA);
-        for (var elem of setB) {
+        for (var elem of this_set) {
             difference.delete(elem);
         }
         return difference;
