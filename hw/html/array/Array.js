@@ -18,8 +18,8 @@ class FakeArray {
     push(byte4) {
         byte4 = byte4.toString()
         
-        // array is at max     input is non number  input is float
-        if (this.length >= 40 || isNaN(byte4) || byte4.includes('.')) {
+        // array is at max     input is non number  input is float     input is too big
+        if (this.length >= 40 || isNaN(byte4) || byte4.includes('.') || byte4.length > 4) {
             return null
         }
 
@@ -71,9 +71,42 @@ const array = new FakeArray()
 //     array.push(12)
 // }
 array.push(1)
+array.push(1)
+array.pop()
+
 array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.push(2)
+array.pop()
+
 array.push(-3)
-array.push(4.1)
+array.push(-3)
+array.pop()
+
 
 console.log(array.contents)
 console.log(array.get(0))
