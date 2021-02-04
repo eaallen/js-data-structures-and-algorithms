@@ -17,3 +17,5 @@ function binarySearch(array, n) {
     }
     return -1;
 }
+
+// ------------- IN CLASS ------------------
