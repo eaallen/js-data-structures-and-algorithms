@@ -60,9 +60,9 @@ function _partition(array, left, right) {
     }
     return left;
 }
-console.log('Sams sort:', _quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2])); // [1, 2, 3, 4, 6, 23]
-let arr = [5, 4, 8, 12, 1, 3, 2]
-console.log('Sami bae', _partition(arr, 0, arr.length - 1))
+// console.log('Sams sort:', _quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2])); // [1, 2, 3, 4, 6, 23]
+// let arr = [5, 4, 8, 12, 1, 3, 2]
+// console.log('Sami bae', _partition(arr, 0, arr.length - 1))
 
 // ------------- IN CLASS ------------------
 
@@ -86,16 +86,13 @@ function quickSort(array) {
 }
 
 function quickSortHelper(array, left_idx, right_idx) {
-    console.table({
-        "left index": left_idx,
-        "Right index": right_idx
-    })
+
 
     if (array.length > 1) {
         let partion_idx = partion(array, left_idx, right_idx)
 
         if (left_idx < partion_idx - 1) {
-            quickSortHelper(array, left_idx, partion_idx-1)
+            quickSortHelper(array, left_idx, partion_idx - 1)
         }
 
         if (right_idx > partion_idx) {
@@ -114,7 +111,7 @@ function partion(array, left_idx, right_idx) {
         array[Math.floor(Math.abs(left_idx - right_idx) / 2)],
         array[right_idx]
     )
-    console.log('eli pivot', pivot)
+    // console.log('eli pivot', pivot)
     // move pivot to end of array 
     // change the array 
     // left_idx will always start smaller than right idx
@@ -136,10 +133,10 @@ function partion(array, left_idx, right_idx) {
             left_idx++
             right_idx--
         }
-        console.table({
-            "left index": left_idx,
-            "Right index": right_idx
-        })
+        // console.table({
+        //     "left index": left_idx,
+        //     "Right index": right_idx
+        // })
     }
 
     return left_idx
@@ -178,19 +175,74 @@ function getMedian(first, second, third) {
     return array[1]
 }
 
-partion([5, 4, 8, 12, 1, 3, 2])
+// partion([5, 4, 8, 12, 1, 3, 2])
 
 
 
-console.log("ELI answer:", quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2]))
+// console.log("ELI answer:", quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2]))
+// console.log("ELI answer:", quickSort(['A', "AZZ", 'And', 'and']))
 
 
 
-console.log('Sams sort:', _quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2])); // [1, 2, 3, 4, 6, 23]
+// console.log('Sams sort:', _quickSort([5, 4, 8, 4, 12, 1,2 , 3, 3, 2])); // [1, 2, 3, 4, 6, 23]
 
 
+//-------------------- practice ----------------------
+function getPiviot(f, s, t) {
+    let arr = [f, s, t]
+    for (let index = 0; index < arr.length; index++) {
+        if (arr[index] > arr[index + 1]) {
+            let h = arr[index]
+            arr[index] = arr[index + 1]
+            arr[index + 1] = h
+            index = 0
+        }
+    }
+    return arr[1]
+}
 
+console.log(getPiviot(2, 1, 2))
 
+function sort(array) {
+   return sortHelp(array, 0, array.length - 1)
+}
+
+function sortHelp(array, left_idx, right_idx){
+    if(array.length > 1){
+        const partition_idx = getPartitionIdx(array,left_idx,right_idx)
+        console.log(partition_idx)
+        // if(left_idx > )
+    }
+}
+
+function getPartitionIdx(array, left_idx, right_idx){
+    // figure out how to partiosn 
+    let pivot = getPiviot(
+        array[left_idx],
+        array[Math.abs(right_idx-left_idx)/2],
+        array[right_idx]
+    )
+
+    while(left_idx <= right_idx){
+        while(pivot < array[left_idx]){
+            left_idx++
+        }
+        while(pivot > array[right_idx]){
+            right--
+        }
+
+        if(left_idx <= right_idx){
+            let h = array[index]
+            array[index] = arr[index + 1]
+            array[index + 1] = h
+
+            left_idx++
+            right_idx--
+        }
+        // what is left_idx at this point 
+        return left_idx
+    }
+}
 
 
 

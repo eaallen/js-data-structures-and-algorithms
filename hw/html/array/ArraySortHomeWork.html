@@ -58,36 +58,113 @@
                 document.getElementById("output1").innerHTML = output;
 
                 /*** Sort the word list using a Quicksort ***/
-                sortWords();
-            }
-
-            /*** Sort the array of words and display the results ***/
-            function sortWords() {
 
             }
 
+            const arr_words = quickSort(scriptureWords)
+            const uniq_word_count = findUnique(scriptureWords).size
+            
+            const output2 = `${arr_words.length} after sorting 
+            (
+            ${arr_words[0]}, ${arr_words[0]}, ${arr_words[0]}...
+            ${arr_words[arr_words.length-3]}, 
+            ${arr_words[arr_words.length-2]}, 
+            ${arr_words[arr_words.length-1]}
+            )`
 
-            /*** Determine and display the count of unique words ***/
-            function findUnique(array) {
+            const output3 = `${uniq_word_count} unique words in the array`
+
+            document.getElementById('output2').innerHTML = output2
+            document.getElementById('output3').innerHTML = output3
+        }
+
+        /*** Determine and display the count of unique words ***/
+        function findUnique(array) {
                 return new Set(array)
             }
+        /*** Sort the array of words and display the results ***/
 
-            sortwords(scriptureWords);
-
-            findUnique(scriptureWords);
-
-        }
-        // quick sort methods 
-        
-        function quickSort() {
-
+        function swap(array, idx_1, idx_2) {
+            const holder = array[idx_1]
+            array[idx_1] = array[idx_2]
+            array[idx_2] = holder
+            return array
         }
 
-        function quickSortHelper() {
-
+        function getMedian(first, second, third) {
+            let array = [first, second, third]
+            let i = 0
+            // Simple sorting algo, but it doeasnt matter 
+            // cause we only have three values to sort
+            while (i < array.length) {
+                if (array[i] > array[i + 1]) {
+                    array = swap(array, i, i + 1)
+                    i = -1
+                }
+                i++
+            }
+            return array[1]
         }
 
-        function partion() {
+        function quickSort(array) {
+            return quickSortHelper(array, 0, array.length - 1)
+        }
+
+        function quickSortHelper(array, left_idx, right_idx) {
+
+
+            if (array.length > 1) {
+                let partion_idx = partion(array, left_idx, right_idx)
+
+                if (left_idx < partion_idx - 1) {
+                    quickSortHelper(array, left_idx, partion_idx - 1)
+                }
+
+                if (right_idx > partion_idx) {
+                    quickSortHelper(array, partion_idx, right_idx)
+                }
+            }
+
+            return array
+        }
+
+        function partion(array, left_idx, right_idx) {
+            // leverage the shallow coppy of an array, 
+            // this param still points to the original in memory  
+            let pivot = getMedian(
+                array[left_idx],
+                array[Math.floor(Math.abs(left_idx - right_idx) / 2)],
+                array[right_idx]
+            )
+            // console.log('eli pivot', pivot)
+            // move pivot to end of array 
+            // change the array 
+            // left_idx will always start smaller than right idx
+            while (left_idx <= right_idx) {
+                // finding the item f_left -- item biger than pivot
+                while (pivot > array[left_idx]) {
+                    left_idx++
+                }
+
+                // finding the item f_right -- item smaller than pivot
+                while (pivot < array[right_idx]) {
+                    right_idx--
+                }
+
+                if (left_idx <= right_idx) {
+                    const holder = array[left_idx]
+                    array[left_idx] = array[right_idx]
+                    array[right_idx] = holder
+                    left_idx++
+                    right_idx--
+                }
+                // console.table({
+                //     "left index": left_idx,
+                //     "Right index": right_idx
+                // })
+            }
+
+            return left_idx
 
         }
 
