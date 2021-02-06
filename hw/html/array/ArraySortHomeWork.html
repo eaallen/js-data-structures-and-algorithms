@@ -111,8 +111,6 @@
         }
 
         function quickSortHelper(array, left_idx, right_idx) {
-
-
             if (array.length > 1) {
                 let partion_idx = partion(array, left_idx, right_idx)
 
@@ -136,7 +134,6 @@
                 array[Math.floor(Math.abs(left_idx - right_idx) / 2)],
                 array[right_idx]
             )
-            // console.log('eli pivot', pivot)
             // move pivot to end of array 
             // change the array 
             // left_idx will always start smaller than right idx
@@ -158,10 +155,6 @@
                     left_idx++
                     right_idx--
                 }
-                // console.table({
-                //     "left index": left_idx,
-                //     "Right index": right_idx
-                // })
             }
 
             return left_idx
