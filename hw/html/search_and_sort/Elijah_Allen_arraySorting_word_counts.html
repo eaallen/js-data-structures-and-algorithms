@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- 
+    Author Elijah Allen 
+    Class: IS 537 11am Section 
+ -->
 <!-- saved from url=(0105)https://learningsuite.byu.edu/plugins/Upload/fileDownload.php?fileId=e9075900-jqq6-elrl-r8cq-dJbef03516f1 -->
 <html lang="en">
 
@@ -30,7 +34,7 @@
                 <table id="alphaSort" style=" width:100%; border: 1px solid black"> </table>
             </div>
             <div style="width: 50%; display: table-cell; ">
-                <p style="font-weight: bold">Word Count Order</p>
+                <p style="font-weight: bold">Word Count <br> Order</p>
                 <table id="countSort" style=" width:100%; border: 1px solid black"> </table>
             </div>
         </div>
@@ -87,7 +91,6 @@
                         : distinct_words_count[word] = 1
                 }
                 return Object.entries(distinct_words_count)
-
             }
 
             function swap(array, idx_1, idx_2) {
