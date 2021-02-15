@@ -46,7 +46,7 @@
         // extract words by examining each character
         function getWordCounts() {
             scriptureWords = [];
-            var chapter = document.getElementById("1Nephi8").innerHTML;
+            var chapter = document.getElementById("1Nephi8").innerHTML.toLowerCase();
             var startWord = false;
             var endWord = false;
             var currWord = "";
@@ -80,17 +80,19 @@
              * ***/
             /******************************************************************/
 
+            // gets word count by using a custom built hashmap
+            // BEST: O(n^2) WORST: O((n^2)2)
             function countWordOccurrence(array_words) {
-                const distinct_words_count = {}
+                const distinct_words_count = new HashMap() // see bottom of index.html
                 for (let i = 0; i < array_words.length; i++) {
                     word = array_words[i]
-                    // make the words lowercase
-                    word = word.toLowerCase()
-                    distinct_words_count[word]
-                        ? distinct_words_count[word] += 1
-                        : distinct_words_count[word] = 1
+
+                    let stored_value = distinct_words_count.get(word) // BEST: O(n) WORST: O((n)2)
+                    stored_value
+                        ? distinct_words_count.put(word, stored_value + 1)
+                        : distinct_words_count.put(word, 1)
                 }
-                return Object.entries(distinct_words_count)
+                return distinct_words_count.entries()
             }
 
             function swap(array, idx_1, idx_2) {
@@ -100,6 +102,8 @@
                 return array
             }
 
+            // I came up with this algorithm Myself 
+            // BEST: O(n^2)
             function selectSort(array) {
                 for (let i = 0; i < array.length; i++) {
                     let min_idx = i
@@ -137,6 +141,7 @@
                 let b_idx = 0;
                 const sorted = []
 
+                // a or b will get done first, then end the loop
                 while (a_idx < a_arr.length && b_idx < b_arr.length) {
                     if (a_arr[a_idx][1] > b_arr[b_idx][1]) {
                         sorted.push(a_arr[a_idx])
@@ -147,10 +152,10 @@
                     }
                 }
 
-                const a_remain = a_arr.slice(a_idx)
-                const b_remain = b_arr.slice(b_idx)
+                const a_remain = a_arr.slice(a_idx) // either O(1) (a finished first) or O(n) (b finished first) 
+                const b_remain = b_arr.slice(b_idx) // either O(1) (b finished first) or O(n) (a finished first) 
 
-                return [...sorted, ...a_remain, ...b_remain]
+                return [...sorted, ...a_remain, ...b_remain] // not sure what the Big-O if the spread opportator is, my guess is O(n)
             }
 
             const arr = countWordOccurrence(scriptureWords)
@@ -159,13 +164,8 @@
 
             // use merge sort
             const count_sorted = mergeSort(arr)
-            /*** 
-             *   You can use this code as a starting place to display the table output 
-             *   The code creates HTML rows to be placed inside the <table> tags
-             *   It is coded using two dimension arrays, however  
-             *   you can change the array structure and/or names to fit your 
-             *   method of storing the words and counts in prior code  
-            ***/
+            
+            // Display Data to User
             var trString = "";
             for (i = 0; i < 5; i++) {
                 trString += `<tr style="width: 100%;"><td>${alphabetical_sorted[i][0]}</td>
@@ -263,10 +263,123 @@
         the commandments of the Lord; and he did cease speaking unto them.
     </p>
 
-    <script src="./homework.js"></script>
+    <!-- <script src="./homework.js"></script> -->
     <script>
-        getWordCounts()
+        class HashMap {
+            // O(n)
+            constructor(size) {
+                this.size = this.isPrime(size || 13441)
+                this._keys = new Array(this.size)
+                this._values = new Array(this.size)
+                this.limit = 0
+            }
+
+            // O(n)
+            put(key, value) {
+                if (this.limit >= this.size) throw 'Hash map is full'
+                let hashed_idx = this.hash(key)
+
+                // We know this is not a collision, else: handle collision 
+                if (key === this._keys[hashed_idx]) {
+                    this._values[hashed_idx] = value
+                } else {
+                    // handle collisions with quadratic approch 
+                    let square_idx = 1
+                    while (this._keys[hashed_idx] != null) {
+                        hashed_idx += Math.pow(square_idx, 2)
+                        square_idx++
+                    }
+
+                    // using the hashed key, place the key and value
+                    this._keys[hashed_idx] = key
+                    this._values[hashed_idx] = value
+                    this.limit++
+                }
+            }
+
+            // O(n)
+            get(key) {
+                if (this.limit >= this.size) throw 'Hash table is full'
+
+                let hashed_idx = this.hash(key) // possible collision
+                let square_idx = 1
+
+                // We know this is not infact a collision
+                if (key === this._keys[hashed_idx]) {
+                    return this._values[hashed_idx]
+                }
+                // handling collisions 
+                while (this._keys[hashed_idx] != key && square_idx < this.limit) {
+                    hashed_idx += Math.pow(square_idx, 2)
+                    square_idx++
+                }
+                return this._values[hashed_idx]
+            }
+
+            // O(n)
+            hash(str) {
+                if (Number.isInteger(str) || str.length === 0) {
+                    throw `Your input (${str}) must be a string`
+                }
+                let hash = 0
+                for (let i = 0; i < str.length; i++) {
+                    let code = str.charCodeAt(i)
+                    hash = ((hash << this.size) - hash) + code
+                    hash = hash & hash
+                }
+                return hash % this.size
+            }
+
+            // secondHash() {}
+
+            // O(n)
+            isPrime(num) {
+                // check for prime number
+                let sqr = Math.sqrt(num)
+                for (let i = 2; i <= sqr; i++) {
+                    if (!(num % i)) throw 'The size of the HashMap should be a Prime number'
+                }
+                return num
+            }
+
+            // O(n)
+            entries() {
+                let ents = []
+                for (let i = 0; i < this._keys.length; i++) {
+                    if (this._keys[i]) {
+                        ents.push([this._keys[i], this._values[i]])
+                    }
+                }
+                return ents
+            }
+
+            // O(n)
+            keys() {
+                let ents = []
+                for (let i = 0; i < this._keys.length; i++) {
+                    if (this._keys[i]) {
+                        ents.push(this._keys[i])
+                    }
+                }
+                return ents
+            }
+
+            // O(n)
+            values() {
+                let ents = []
+                for (let i = 0; i < this._values.length; i++) {
+                    if (this._values[i]) {
+                        ents.push(this._values[i])
+                    }
+                }
+                return ents
+            }
+        }
+
     </script>
+    <!-- <script>
+        getWordCounts()
+    </script> -->
 
 </body>
 
