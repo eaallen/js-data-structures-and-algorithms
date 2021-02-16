@@ -28,4 +28,7 @@ function findSqrt_binary_search(num) {
     return `${num} is a prime number`
 }
 
-console.log(findSqrt_binary_search(115249))
+// find if two elements in an array add up to a given number 
+function arraySum(array, num){
+    
+}
