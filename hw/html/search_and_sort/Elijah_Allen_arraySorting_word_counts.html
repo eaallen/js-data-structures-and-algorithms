@@ -81,13 +81,13 @@
             /******************************************************************/
 
             // gets word count by using a custom built hashmap
-            // BEST: O(n^2) WORST: O((n^2)2)
+            // BEST: O(n^2) WORST: O(2n^2)
             function countWordOccurrence(array_words) {
                 const distinct_words_count = new HashMap() // see bottom of index.html
                 for (let i = 0; i < array_words.length; i++) {
                     word = array_words[i]
 
-                    let stored_value = distinct_words_count.get(word) // BEST: O(n) WORST: O((n)2)
+                    let stored_value = distinct_words_count.get(word) // BEST: O(n) WORST: O(2n)
                     stored_value
                         ? distinct_words_count.put(word, stored_value + 1)
                         : distinct_words_count.put(word, 1)
@@ -164,7 +164,7 @@
 
             // use merge sort
             const count_sorted = mergeSort(arr)
-            
+
             // Display Data to User
             var trString = "";
             for (i = 0; i < 5; i++) {
@@ -321,13 +321,14 @@
                 if (Number.isInteger(str) || str.length === 0) {
                     throw `Your input (${str}) must be a string`
                 }
-                let hash = 0
+                // let hash = 0
+                let code = 0
                 for (let i = 0; i < str.length; i++) {
-                    let code = str.charCodeAt(i)
-                    hash = ((hash << this.size) - hash) + code
-                    hash = hash & hash
+                    code += str.charCodeAt(i)
+                    // hash = ((hash << this.size) - hash) + code
+                    // hash = hash & hash
                 }
-                return hash % this.size
+                return code % this.size
             }
 
             // secondHash() {}
@@ -377,9 +378,23 @@
         }
 
     </script>
-    <!-- <script>
-        getWordCounts()
-    </script> -->
+    <script>
+        function timeTest(func, time_ms = 20000) {
+            const times = []
+            for (let i = 0; i < time_ms; i++) {
+                const t0 = performance.now()
+                func()
+                const t1 = performance.now()
+                times.push(t1 - t0)
+            }
+            const avg = times.reduce((a, b) => a + b, 0) / times.length
+            return avg
+        }
+        const number_of_tests = 10000
+        const key = `Average time in milliseconds per ${number_of_tests} tests:`
+        console.log(key, timeTest(getWordCounts, number_of_tests))
+        console.log('Big-O: O( log2(n)*(n^4) )')
+    </script>
 
 </body>
 
