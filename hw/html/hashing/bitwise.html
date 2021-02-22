@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+    Javascript program to demonstrate Bitwise Operations
+    (AND, OR, NOT, XOR and SHIFT)
+    - Operators:
+        - AND: both inputs must be 1 for an output of 1
+        -  OR: a 1 in either or both inputs results in a 1 output
+        - NOT: bits are flipped to their opposite, ie. 1 becomes 0 and the reverse
+        - XOR: inputs have to be different for the output to be 1
+        - SHIFT: bits are moved the specified direction and number
+                    0 is moved in on the opposite end for every bit moved out
+                    a SIGNED SHIFT brings in a copy of the bit being shifted
+    Written by (rbh)
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitwise Examples</title>
+</head>
+<body>
+    <h1>Bitwise Operations</h1>
+    <label for="decimalNumber">Decimal Number (between 0 and 65535)</label><br>
+    <input type="text" id="decimalNumber" value="815"><br><br>
+    <input type="button" id="doBitwise" onclick="doBitwise()" value="Perform Example"><br>
+    <p id="output" style="font-family: 'Courier New', Courier, monospace;"></p>
+    <script>
+        function doBitwise() {
+            var output = "";
+            var strA = document.getElementById("decimalNumber").value;
+            var a = parseInt(strA);
+            /** bitwise shift left **/
+            /**    bits are shifted to the left the specified number of times   **/
+            /**       the left bit drops off and a 0 is brought in on the right **/
+            b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>";
+            var b = b << 1;
+            output += decToBin(b) + "<br>";            
+            output += b + " after shifting LEFT 1 bit<br><br>";
+            /** bitwise shift right **/
+            /**    bits are shifted to the right the specified number of times   **/
+            /**       the right bit drops off and a 0 is brought in on the left **/
+            b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>";
+            var b = b >> 1;
+            output += decToBin(b) + "<br>";        
+            output += b + " after shifting RIGHT 1 bit<br><br>";
+            /** bitwise NOT - bits are flipped to their reverse **/
+            /**** 0 becomes 1 and 1 becomes 0 for each bit *******/
+            b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>";
+            var b = ~b;
+            output += decToBin(b) + "<br>";            
+            output += b + " following NOT operation<br><br>";
+            /** bitwise AND  with all 1's           **/
+            /**** output is the same as input       **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b & 0xFFFF;
+            output += decToBin(b) + "<br>"; 
+            output += b + " after AND with 1111111111111111<br><br>";
+
+            /** bitwise AND with all 0's **/
+            /**** output is all 0's      **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b & 0x0000;
+            output += decToBin(b) + "<br>";   
+            output += b + " after AND with 0000000000000000<br><br>";
+            
+            /** bitwise OR  with all 1's       **/
+            /**** output is all 1's            **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b | 0xFFFF;
+            output += decToBin(b) + "<br>"; 
+            output += b + " after OR with 1111111111111111<br><br>";
+
+            /** bitwise OR with all 0's **/
+            /**** output is the same as input **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b | 0x0000;
+            output += decToBin(b) + "<br>"; 
+            output += b + " after OR with 0000000000000000<br><br>";
+
+            /** bitwise XOR with all ones                 **/
+            /**** output bits are flipped from input bits **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b ^ 0xFFFF;
+            output += decToBin(b) + "<br>";
+            output += b + " after XOR with 1111111111111111<br><br>";
+
+            /** bitwise XOR with all ones                 **/
+            /**** output is the same as input             **/
+            var b = a;
+            output += "decimal " + b + " in binary <br>";
+            output += decToBin(b) + "<br>"; 
+            var b = b ^ 0x0000;
+            output += decToBin(b) + "<br>";
+            output += b + " after XOR with 0000000000000000<br><br>";
+
+            document.getElementById("output").innerHTML = output;
+
+        }     
+/**********************************************/
+/*** Helper function to convert             ***/
+/***     decimal value to 16-bit binary     ***/
+/**********************************************/
+        function decToBin(number){
+            var binary = "";
+            var temp = number;
+        
+            //while(temp > 0){
+            for (i=1;i<=16;i++) {
+                if(temp % 2 == 0){
+                    binary = "0" + binary;
+                }
+                else {
+                    binary = "1" + binary;
+                }
+
+                temp = Math.floor(temp / 2);
+            }
+
+            return binary;
+        }
+        /*************************************/
+    </script> 
+</body>
+</html>

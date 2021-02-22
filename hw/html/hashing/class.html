@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit Shift example</title>
+    <style>
+        td {
+            border:solid 1px;
+            height: 3em;
+            width: 3em;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: larger;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bit Shift Example</h1>
+    <table>
+        <tr>
+            <td id="c0"></td>
+            <td id="c1"></td>
+            <td id="c2"></td>
+            <td id="c3"></td>
+            <td id="c4"></td>
+            <td id="c5"></td>
+            <td id="c6"></td>
+            <td id="c7"></td>
+        </tr>
+    </table><br>
+    <input type='button' value='Shift 3 Bits Right'  onclick="shiftLeft3()">
+
+    <script>
+
+            dBits = decToBin(240);
+            displayBits(dBits);
+
+            function shiftLeft3(numIn = 240) {
+                bitValue = numIn;
+                dBits = decToBin(bitValue);
+                displayBits(dBits);
+                var i=0;
+                var intervalID = setInterval(bitShift => {
+                    dBits = decToBin(bitValue);
+                    displayBits(dBits);
+                    i++;
+                    bitValue = bitValue >> 1;
+                    if (i > 3) {
+                        clearInterval(intervalID);
+                        //document.getElementById("output").innerHTML = "Success!"
+                    }
+                }, 1000);
+            }
+
+        function displayBits(bitString = "10101010") {
+            for (i=0;i<bitString.length;i++) {
+                ch = bitString.charAt(i);
+                te = "c" + i;
+                document.getElementById(te).innerHTML = ch;
+            }
+        }
+
+        /**********************************************/
+        /*** Helper function to convert             ***/
+        /***     decimal value to 16-bit binary     ***/
+        /**********************************************/
+        function decToBin(number){
+                    var binary = "";
+                    var temp = number;
+                
+                    //while(temp > 0){
+                    for (i=1;i<=8;i++) {
+                        if(temp % 2 == 0){
+                            binary = "0" + binary;
+                        }
+                        else {
+                            binary = "1" + binary;
+                        }
+
+                        temp = Math.floor(temp / 2);
+                    }
+
+            return binary;
+        }
+        /*************************************/
+    </script>
+    
+</body>
+</html>
