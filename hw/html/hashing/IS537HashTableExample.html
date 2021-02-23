@@ -35,23 +35,23 @@
 
         /** Declare and Initialize Hash Table **/
         var hashTable = [];       
-        for (i=0;i<11;i++) {
+        for (i=0;i<modulusPrime;i++) {
             hashTable.push(null);
         }
 
         /** Test - Fill the hash table with random keys **/
         var collisionCount = 0;
-        hashPut(481, "Jack");
-        hashPut(516, "John");
-        hashPut(234, "Kate");
-        hashPut(248, "Sawyer");
-        hashPut(151, "Hugo");
-        hashPut(623, "Michael");
-        hashPut(424, "Charlie");
-        hashPut(815, "Sayid");
-        hashPut(162, "Julia");
-        hashPut(342, "Ben");
-        hashPut(342, "Sun");
+        hashPut('11', "Jack");
+        hashPut('11*2', "John");
+        hashPut('11*3', "Kate");
+        hashPut('11*4', "Sawyer");
+        hashPut('11*5', "Hugo");
+        hashPut('11*6', "Michael");
+        hashPut('11*7', "Charlie");
+        hashPut('11*8', "Sayid");
+        hashPut('11*9', "Julia");
+        hashPut('11*1', "Ben");
+        hashPut('11*1',   "Sun");
 
         document.getElementById("output1").innerHTML = hashHistory;
         document.getElementById("output2").innerHTML =
@@ -67,20 +67,25 @@
         
         /********** hash calculation for numeric key ******/
         function calcNumericHash(numKey) {
-            var hashValue = (numKey) % modulusPrime;
+            var hashValue = (numKey^modulusPrime^7) % modulusPrime;
+
             return hashValue;
         }
 
         /********** hash calculation for string key ******/
         function calcStringHash(stringKey) {
-            /*TBD*/
+            let val = 0
+            for(let i = 0; i< stringKey; i++){
+                val +=  stringKey.charCodeAt(i)
+            }
+            return calcNumericHash(val)
         }
 
             /*** Hash for an array of 11 for up to 3 digit input values ***/
             function hashPut(numKey, value) {
                 /** Calculate initial hash value **/
-                //var hashValue = calcNumericHash(numKey) 
-                var hashValue = calcNumericHash(numKey);
+                var hashValue = calcStringHash(numKey) 
+                // var hashValue = calcNumericHash(numKey);
                 /** build output of hashing history **/ 
                 hashHistory += numKey + " " + value + " " +
                     " % " + modulusPrime +" = " + hashValue;
