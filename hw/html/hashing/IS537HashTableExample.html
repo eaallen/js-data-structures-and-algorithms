@@ -8,15 +8,17 @@
     Written by (rbh)
 -->
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hash Table Example</title>
 </head>
+
 <body>
     <h1>Hash Table Experimenter</h1>
     <p style="font-weight: bolder;">11 element array<br>
-       Keys are 3 digit positive integers</p>
+        Keys are 3 digit positive integers</p>
     <!-- Basic Workbench Template for checking hash algorithms-->
     <label for="hashKey">Hash ID </label>
     <input type="text" id="hashKey" style="width: 20em;" value="516"><br>
@@ -34,24 +36,25 @@
         const modulusPrime = 11;
 
         /** Declare and Initialize Hash Table **/
-        var hashTable = [];       
-        for (i=0;i<modulusPrime;i++) {
+        var hashTable = [];
+        for (i = 0; i < modulusPrime; i++) {
             hashTable.push(null);
         }
 
         /** Test - Fill the hash table with random keys **/
         var collisionCount = 0;
-        hashPut('11', "Jack");
-        hashPut('11*2', "John");
-        hashPut('11*3', "Kate");
-        hashPut('11*4', "Sawyer");
-        hashPut('11*5', "Hugo");
-        hashPut('11*6', "Michael");
-        hashPut('11*7', "Charlie");
-        hashPut('11*8', "Sayid");
-        hashPut('11*9', "Julia");
-        hashPut('11*1', "Ben");
-        hashPut('11*1',   "Sun");
+        hashPut(481, "Jack");
+        hashPut(516, "John");
+        hashPut(234, "Kate");
+        hashPut(248, "Sawyer");
+        hashPut(151, "Hugo");
+        hashPut(613, "Michael");
+        hashPut(424, "Charlie");
+        hashPut(815, "Sayid");
+        hashPut(162, "Julia");
+        hashPut(342, "Ben");
+        hashPut(343, "Sun");
+
 
         document.getElementById("output1").innerHTML = hashHistory;
         document.getElementById("output2").innerHTML =
@@ -64,10 +67,10 @@
             var person = hashGet(hashKey);
             document.getElementById("lkpPerson").innerHTML = person;
         }
-        
+
         /********** hash calculation for numeric key ******/
         function calcNumericHash(numKey) {
-            var hashValue = (numKey^modulusPrime^7) % modulusPrime;
+            var hashValue = (numKey ^ 100) % modulusPrime;
 
             return hashValue;
         }
@@ -75,52 +78,52 @@
         /********** hash calculation for string key ******/
         function calcStringHash(stringKey) {
             let val = 0
-            for(let i = 0; i< stringKey; i++){
-                val +=  stringKey.charCodeAt(i)
+            for (let i = 0; i < stringKey; i++) {
+                val += stringKey.charCodeAt(i)
             }
             return calcNumericHash(val)
         }
 
-            /*** Hash for an array of 11 for up to 3 digit input values ***/
-            function hashPut(numKey, value) {
-                /** Calculate initial hash value **/
-                var hashValue = calcStringHash(numKey) 
-                // var hashValue = calcNumericHash(numKey);
-                /** build output of hashing history **/ 
-                hashHistory += numKey + " " + value + " " +
-                    " % " + modulusPrime +" = " + hashValue;
+        /*** Hash for an array of 11 for up to 3 digit input values ***/
+        function hashPut(numKey, value) {
+            /** Calculate initial hash value **/
+            // var hashValue = calcStringHash(numKey)
+            var hashValue = calcNumericHash(numKey);
+            /** build output of hashing history **/
+            hashHistory += numKey + " " + value + " " +
+                " % " + modulusPrime + " = " + hashValue;
 
-                /** put the key and value into the calculated spot if possible **/
-                /** if already occupied check next slot with wraparound if necessary **/
-                do {
-                    if (hashTable[hashValue] === null) {
-                        hashTable[hashValue] = [numKey, value];
-                        hashHistory += " (" + hashValue + ")<br>";
-                    } else {
-                        collisionCount++;
-                        while (hashValue < hashTable.length && hashTable[hashValue] != null) {
-                            hashValue++;
-                            if (hashValue === hashTable.length) hashValue = 0;
-                        }    
-                    }
-
-                } while (hashTable[hashValue] === null)
-
-            }
-
-            /** Retrieve key value from the hash table **/
-            function hashGet(numKey) {
-                var hashValue = calcNumericHash(numKey);
-                var hvHold = hashValue;
-                while (hashTable[hashValue][0] != numKey) {
-                    hashValue++;
-                    if (hashValue === hashTable.length -1) hashValue = 0;
-                    if (hashValue === hvHold) {
-                        return "Not Found";
+            /** put the key and value into the calculated spot if possible **/
+            /** if already occupied check next slot with wraparound if necessary **/
+            do {
+                if (hashTable[hashValue] === null) {
+                    hashTable[hashValue] = [numKey, value];
+                    hashHistory += " (" + hashValue + ")<br>";
+                } else {
+                    collisionCount++;
+                    while (hashValue < hashTable.length && hashTable[hashValue] != null) {
+                        hashValue++;
+                        if (hashValue === hashTable.length) hashValue = 0;
                     }
                 }
-                return hashTable[hashValue][1];
+
+            } while (hashTable[hashValue] === null)
+
+        }
+
+        /** Retrieve key value from the hash table **/
+        function hashGet(numKey) {
+            var hashValue = calcNumericHash(numKey);
+            var hvHold = hashValue;
+            while (hashTable[hashValue][0] != numKey) {
+                hashValue++;
+                if (hashValue === hashTable.length - 1) hashValue = 0;
+                if (hashValue === hvHold) {
+                    return "Not Found";
+                }
             }
+            return hashTable[hashValue][1];
+        }
 
 
 
@@ -128,6 +131,7 @@
     <br><br>
     <hr>
 
-    
+
 </body>
+
 </html>
