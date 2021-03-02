@@ -33,4 +33,4 @@ function merge(a_arr, b_arr) {
     return sorted
 }
 
-console.log(mergeSort(arr))
+console.log(mergeSort('a a a e ae'.split(' ')))

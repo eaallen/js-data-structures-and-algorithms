@@ -76,3 +76,4 @@ function timeTest(func) {
 }
 
 charCompareSpeed()
+

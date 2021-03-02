@@ -11,7 +11,6 @@ class HashTable {
         if (this.limit >= this.size) throw 'Hash table is full'
 
         let hashed_idx = this.hash(key)
-
         // linear Probing
         while(this.keys[hashed_idx] !=null){
             hashed_idx++
@@ -38,8 +37,12 @@ class HashTable {
         let hashed_idx = this.hash(key)
         let square_idx = 1
         
-        while(this.keys[hashed_idx] != key){
+        while(this.keys[hashed_idx] != null){
+            // console.log(this.keys[hashed_idx])
+            // console.log(hashed_idx)
             hashed_idx += Math.pow(square_idx,2)
+            hashed_idx = hashed_idx % this.size
+
             square_idx++
         }
 
@@ -53,10 +56,13 @@ class HashTable {
         let hashed_idx = this.hash(key)
         let square_idx = 1
         
-        while(this.keys[hashed_idx] != null){
+        while(this.keys[hashed_idx] != key){
+            
             hashed_idx += Math.pow(square_idx,2)
             hashed_idx = hashed_idx % this.size
             square_idx++
+            // console.log(square_idx)
+            // console.log('hashed key value' ,this.keys[hashed_idx],'og key', key)
         }
         return this.values[hashed_idx ]
     }
@@ -73,16 +79,13 @@ class HashTable {
 
 }
 
-const linearHash = new HashTable(13)
-linearHash.put(7, "hi");
-linearHash.put(20, "hello");
-linearHash.put(33, "sunny");
-linearHash.put(46, "weather");
-linearHash.put(59, "wow");
-linearHash.put(72, "forty");
-linearHash.put(85, "happy");
-linearHash.put(98, "sad");
+const linearHash = new HashTable(3)
+linearHash.quadraticPut(3, "hi");
+linearHash.quadraticPut(6, "hello");
+linearHash.quadraticPut(9, "sunny");
 
-console.log(linearHash.size)
-console.log(linearHash.keys)
-console.log(linearHash.values)
+
+
+console.log(linearHash.quadraticGet(3))
+console.log(linearHash.quadraticGet(6))
+console.log(linearHash.quadraticGet(9))
