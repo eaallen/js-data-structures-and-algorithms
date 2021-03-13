@@ -99,4 +99,18 @@ class DoublyLinkedList {
         return false;
     }
 
+    //---------------------- Util Methods ------------------------
+    detectloop(){
+        let slow = this.head
+        let fast = this.head
+        while(slow !== null && fast !== null && fast.next !== null){
+            fast = fast.next.next
+            slow = slow.next
+            if(fast === slow){
+                return 'loop detected'
+            }
+        }
+        return 'there is no loop here'
+    }
+
 }
