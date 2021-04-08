@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="./BinaryTree.js"></script> -->
+    <script src="./AllenTree.js"></script>
+    <script src="./utils/ui.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script>
+        const tree = new AllenTree()
+
+        tree.add(10)
+        tree.add(0)
+        tree.add(20)
+        tree.add(150)
+        tree.add(12)
+        tree.add(70)
+        tree.add(75)
+        tree.add(1)
+        tree.add(2)
+        tree.add(3)
+        tree.add(4)
+        tree.add(5)
+        tree.add(6)
+        // tree.add(9)
+        // tree.add(8)
+        // tree.add(7)
+
+        console.log(tree.getTreeHeight())
+        console.log(tree.nodeIsBalenced(tree.root))
+
+        tree.inspect()
+
+        console.log('level order:', tree.traverse(tree.root))
+
+        createTableforTree(tree)
+    </script>
+</body>
+
+</html>

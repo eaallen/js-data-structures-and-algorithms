@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<!-- saved from url=(0105)https://learningsuite.byu.edu/plugins/Upload/fileDownload.php?fileId=4ec358f6-BREM-t5Fw-IhUY-Lu98894db9ea -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IS537 TA1 - Team &lt;!--Team Number Here--&gt;&gt;</title>
+</head>
+
+<body>
+    <h1>1 Nephi 8 &amp; 1 Nephi 11 Word Counts</h1>
+    <h2>Using an AVL Tree</h2>
+    <h4> Cooperative coding by Team ≪team number≫ </h4>
+    <input type="button" value="Build AVL Tree" onclick="avlTreeProcess()">
+    <br>
+    <p id="treeInfo" style="font-weight:bold;"></p><br>
+    <label for="chapterWord">Lookup Count for Word: </label>
+    <input type="text" id="chapterWord" style="width: 10em;" value="tree"
+        onkeydown="if(event.keyCode == 13) getWordCount(document.getElementById('chapterWord').value);"><br>
+    <input type="button" value="Display this word's count"
+        onclick="getWordCount(document.getElementById('chapterWord').value)">
+    <br>
+    <p id="wordCount" style="font-weight:bold;"></p>
+    <p id="traversals" style="font-weight:bold;"></p>
+    <br>
+    <script>
+
+        var AVLTreeOfLife = null;
+        /*************************** 1 *********************************/
+        /********  Place code here for AVLTree and Node   **************/
+        /********  classes and methods                    **************/
+        /***************************************************************/
+
+        function createRootNode() {
+            /*************************** 2 *********************************/
+            /*********  Place code here to create the root node      *******/
+            /***************************************************************/
+        }
+
+        /******* Main functional Steps ******/
+        function avlTreeProcess() {
+            var chapterWords = parseChapterWords();                         /*** function code needed ***/
+            var countedWords = countUniqueWords(chapterWords);
+            console.log(countedWords)
+            var avlTreeRoot = createRootNode();                             /*** function code needed ***/
+            var avlTreeOfLife = buildAVLTree(avlTreeRoot, countedWords);    /*** function code needed ***/
+            console.log('--->', avlTreeOfLife)
+            var messageArea = countedWords + " AVL Tree Nodes: <br>" +
+                "AVL Tree Depth: " + getTreeDepth(avlTreeOfLife);
+
+        }
+
+        function parseChapterWords() {
+            let scriptureWords = []
+            let text = document.getElementById('1Nephi8').innerText
+            text += document.getElementById('1Nephi11').innerText
+            text = text.toLowerCase()
+
+            const regex1 = /[A-z]+/g
+            let array1;
+            while ((array1 = regex1.exec(text)) !== null) scriptureWords.push(array1[0])
+            return scriptureWords;
+        }
+
+        /**** Counts unique occurrences of each word ****/
+        function countUniqueWords(array) {
+            var wordCountArray = [];
+            console.log('set--->', new Set(array).size)
+            array.map(word => {
+                let newWord = []
+                let flag = false
+                let count = 0
+
+                if (wordCountArray.length === 0) {
+                    newWord.push(word)
+                    newWord.push(1)
+                    wordCountArray.push(newWord)
+                }
+                else {
+                    for (i = 0; i < wordCountArray.length; i += 1) {
+                        if (wordCountArray[i][0] === word) {
+                            flag = true
+                            count = i
+                        }
+                    }
+                    if (flag) {
+                        wordCountArray[count][1] += 1
+                    }
+                    else {
+                        newWord.push(word)
+                        newWord.push(1)
+                        wordCountArray.push(newWord)
+                    }
+                }
+            })
+
+            return wordCountArray;
+        }
+
+        /******    Function to build Hash Table ******/
+        function buildAVLTree(root, wordCountArray) {
+            var nodeCount = 0;
+            /**************************** 5 **********************************/
+            /*********  Place code here to build (fill) the hash table  *******/
+            /******************************************************************/
+
+            class AllenTree {
+                constructor(value) {
+                    this.root = null
+                    if (value) this.root = this.createNode(value)
+                }
+
+                createNode(value) {
+                    let depth = null
+
+                    return {
+                        value: value[0],
+                        word_count: value[1],
+                        left: null,
+                        right: null,
+                        depth: depth,
+                    }
+                }
+
+                getDepth(root) {
+                    let depth = 0
+                    if (root) {
+                        depth = Math.max(this.getDepth(root.left), this.getDepth(root.right)) + 1
+                        root.depth = depth
+                    }
+                    return depth
+                }
+
+                search(value){
+                    const searchHelper = (node, value)=>{
+                        if(node.value === value){
+                            return node.count
+                        }else if(node.value > value){
+                            searchHelper(node.left, value)
+                        }else{
+                            searchHelper(node.right, value)
+                        }
+                    }
+                    return searchHelper(this.root, value)
+                }
+
+                insert(value) {
+                    const _insert = (node, value) => {
+                        if (this.root === null) {
+                            this.root = this.createNode(value)
+                        } else if (value === node.value) {
+                            console.error('only unique values')
+                            return false
+                        } else if (value < node.value) {
+                            // go Left
+                            // check for balence
+                            console.log(this.nodeIsBalenced(node))
+                            node.is_balenced = this.nodeIsBalenced(node)
+                            if (node.left === null) {
+                                node.left = this.createNode(value)
+                                return true
+                            } else {
+                                _insert(node.left, value) // step into next node
+                            }
+                        } else if (value > node.value) {
+                            // go right
+                            // check for balence
+                            console.log(this.nodeIsBalenced(node))
+                            node.is_balenced = this.nodeIsBalenced(node)
+                            if (node.right === null) {
+                                node.right = this.createNode(value)
+                                return true
+                            } else {
+                                _insert(node.right, value) // step into next node
+                            }
+                        } else {
+                            console.error('Logic Error in AllenTree Insert Method')
+                        }
+
+                    }
+                    return _insert(this.root, value)
+                }
+
+                add(data) {
+                    // console.log('ADD:', data)
+                    const _insert = (root, node) => {
+                        // if(node.value===70) debugger
+                        if (!root) {
+                            root = node
+                        } else if (node.value < root.value) {
+                            // go left
+                            root.left = _insert(root.left, node)
+                            if (root.left !== null && !this.nodeIsBalenced(root)) {
+                                // rotation
+                                // console.log('left rotate')
+                                if (root.left.value > node.value) { // node is on left 
+                                    // console.log('RotateLL')
+                                    root = this.rotateLL(root)
+                                } else {
+                                    // console.log('rotateLR')
+                                    root = this.rotateLR(root)
+                                }
+                            }
+                        } else if (node.value > root.value) {
+                            // go right
+                            root.right = _insert(root.right, node)
+                            if (root.right !== null && !this.nodeIsBalenced(root)) {
+                                // rotation 
+                                // console.log('right rotate! Root.right:', root.right)
+                                // console.log('right rotate! NODE:', node)
+
+                                if (root.right.value < node.value) { // node is on left 
+                                    // console.log('RotateRR')
+                                    root = this.rotateRR(root)
+                                } else {
+                                    // console.log('rotateRL')
+                                    root = this.rotateRL(root)
+                                }
+                            }
+                        }
+                        return root
+                    }
+
+                    const node = this.createNode(data)
+                    if (!this.root) {
+                        this.root = node
+                    } else {
+                        this.root = _insert(this.root, node)
+                    }
+                    return
+                }
+                rotateLL(root) {
+                    // console.log('LL:', root)
+                    const z = root
+                    const y = root.left
+                    const x = root.left.left
+
+                    z.left = y.right
+
+                    y.left = x
+                    y.right = z
+
+                    // console.log('LL 2:', y)
+                    return y
+                }
+
+                rotateLR(root) {
+                    const z = root
+                    const y = root.left
+                    const x = root.left.right
+
+                    z.left = x.right
+                    y.right = x.left
+
+                    x.right = z
+                    x.left = y
+                    return x
+                }
+
+
+                rotateRR(root) {
+                    // console.log('RR:', root)
+                    const z = root
+                    const y = root.right
+                    const x = root.right.right
+
+                    z.right = y.left
+
+
+                    y.right = x
+                    y.left = z
+
+                    // console.log('RR 2:', y)
+                    return y
+                }
+                rotateRL(root) {
+                    const z = root
+                    const y = root.right
+                    const x = root.right.left
+
+                    z.right = x.left
+                    y.left = x.right
+
+                    x.left = z
+                    x.right = y
+                    return x
+                }
+
+                inspect() { console.log(this) }
+
+                getTreeHeight() {
+                    return this.getDepth(this.root)
+                }
+                /**
+                 * returns true if the differance of depth in 
+                 * node.left and node.right is less than 2
+                 * @param {object} node 
+                 * @returns {true}
+                 */
+                nodeIsBalenced(node) {
+                    return Math.abs(this.getDepth(node.left) - this.getDepth(node.right)) < 2
+                }
+
+                traverse(root = this.root, valuesOnly = true) {
+                    // const arr = []
+                    // arr.push(root.value,root.left.value,root.right.value)
+
+                    const queue = []
+                    const arr = []
+                    if (!root) return
+
+                    queue.push(root)
+                    while (queue.length) {
+                        let temp = queue.shift()
+                        // console.log(temp)
+                        arr.push(valuesOnly ? temp.value : temp)
+                        if (temp.left) queue.push(temp.left)
+                        if (temp.right) queue.push(temp.right)
+                    }
+                    return arr
+                }
+
+            }
+
+
+            const avlTree = new AllenTree()
+
+            for (const item of wordCountArray) {
+                avlTree.add(item)
+                nodeCount++
+            }
+
+            console.log('tree is ballenced', avlTree.nodeIsBalenced(avlTree.root))
+
+            document.getElementById('treeInfo').innerHTML = "AVL Tree created with " + nodeCount + " nodes";
+            return avlTree;
+        }
+
+        function getWordCount(word) {
+            var wordCount = 0;
+            var traversals = 0;
+            /*************************** 6 ************************************/
+            /****  Place code here to search for the word in the tree   *******/
+            /**************  and get the count for display  *******************/
+            /********* also display the number of traversals required *********/
+            /******************************************************************/
+
+            document.getElementById('wordCount').innerHTML = "'" + word + "' is used " + wordCount + " times.";
+            document.getElementById('traversals').innerHTML = "The search required " +
+                traversals + " traversals";
+        }
+
+    </script>
+    <br><br>
+    <hr>
+
+    <label for="1Nephi8" style="font-size: x-large;">1 Nephi Chapter 8</label><br>
+    <p id="1Nephi8">
+        <br>1 And it came to pass that we had gathered together all manner of seeds of every kind, both of grain of
+        every kind, and also of the seeds of fruit of every kind.
+        <br>2 And it came to pass that while my father tarried in the wilderness he spake unto us, saying: Behold, I
+        have dreamed a dream; or, in other words, I have seen a vision.
+        <br>3 And behold, because of the thing which I have seen, I have reason to rejoice in the Lord because of Nephi
+        and also of Sam; for I have reason to suppose that they, and also many of their seed, will be saved.
+        <br>4 But behold, Laman and Lemuel, I fear exceedingly because of you; for behold, methought I saw in my dream,
+        a dark and dreary wilderness.
+        <br>5 And it came to pass that I saw a man, and he was dressed in a white robe; and he came and stood before me.
+        <br>6 And it came to pass that he spake unto me, and bade me follow him.
+        <br>7 And it came to pass that as I followed him I beheld myself that I was in a dark and dreary waste.
+        <br>8 And after I had traveled for the space of many hours in darkness, I began to pray unto the Lord that he
+        would have mercy on me, according to the multitude of his tender mercies.
+        <br>9 And it came to pass after I had prayed unto the Lord I beheld a large and spacious field.
+        <br>10 And it came to pass that I beheld a tree, whose fruit was desirable to make one happy.
+        <br>11 And it came to pass that I did go forth and partake of the fruit thereof; and I beheld that it was most
+        sweet, above all that I ever before tasted. Yea, and I beheld that the fruit thereof was white, to exceed all
+        the whiteness that I had ever seen.
+        <br>12 And as I partook of the fruit thereof it filled my soul with exceedingly great joy; wherefore, I began to
+        be desirous that my family should partake of it also; for I knew that it was desirable above all other fruit.
+        <br>13 And as I cast my eyes round about, that perhaps I might discover my family also, I beheld a river of
+        water; and it ran along, and it was near the tree of which I was partaking the fruit.
+        <br>14 And I looked to behold from whence it came; and I saw the head thereof a little way off; and at the head
+        thereof I beheld your mother Sariah, and Sam, and Nephi; and they stood as if they knew not whither they should
+        go.
+        <br>15 And it came to pass that I beckoned unto them; and I also did say unto them with a loud voice that they
+        should come unto me, and partake of the fruit, which was desirable above all other fruit.
+        <br>16 And it came to pass that they did come unto me and partake of the fruit also.
+        <br>17 And it came to pass that I was desirous that Laman and Lemuel should come and partake of the fruit also;
+        wherefore, I cast mine eyes towards the head of the river, that perhaps I might see them.
+        <br>18 And it came to pass that I saw them, but they would not come unto me and partake of the fruit.
+        <br>19 And I beheld a rod of iron, and it extended along the bank of the river, and led to the tree by which I
+        stood.
+        <br>20 And I also beheld a strait and narrow path, which came along by the rod of iron, even to the tree by
+        which I stood; and it also led by the head of the fountain, unto a large and spacious field, as if it had been a
+        world.
+        <br>21 And I saw numberless concourses of people, many of whom were pressing forward, that they might obtain the
+        path which led unto the tree by which I stood.
+        <br>22 And it came to pass that they did come forth, and commence in the path which led to the tree.
+        <br>23 And it came to pass that there arose a mist of darkness; yea, even an exceedingly great mist of darkness,
+        insomuch that they who had commenced in the path did lose their way, that they wandered off and were lost.
+        <br>24 And it came to pass that I beheld others pressing forward, and they came forth and caught hold of the end
+        of the rod of iron; and they did press forward through the mist of darkness, clinging to the rod of iron, even
+        until they did come forth and partake of the fruit of the tree.
+        <br>25 And after they had partaken of the fruit of the tree they did cast their eyes about as if they were
+        ashamed.
+        <br>26 And I also cast my eyes round about, and beheld, on the other side of the river of water, a great and
+        spacious building; and it stood as it were in the air, high above the earth.
+        <br>27 And it was filled with people, both old and young, both male and female; and their manner of dress was
+        exceedingly fine; and they were in the attitude of mocking and pointing their fingers towards those who had come
+        at and were partaking of the fruit.
+        <br>28 And after they had tasted of the fruit they were ashamed, because of those that were scoffing at them;
+        and they fell away into forbidden paths and were lost.
+        <br>29 And now I, Nephi, do not speak all the words of my father.
+        <br>30 But, to be short in writing, behold, he saw other multitudes pressing forward; and they came and caught
+        hold of the end of the rod of iron; and they did press their way forward, continually holding fast to the rod of
+        iron, until they came forth and fell down and partook of the fruit of the tree.
+        <br>31 And he also saw other multitudes feeling their way towards that great and spacious building.
+        <br>32 And it came to pass that many were drowned in the depths of the fountain; and many were lost from his
+        view, wandering in strange roads.
+        <br>33 And great was the multitude that did enter into that strange building. And after they did enter into that
+        building they did point the finger of scorn at me and those that were partaking of the fruit also; but we heeded
+        them not.
+        <br>34 These are the words of my father: For as many as heeded them, had fallen away.
+        <br>35 And Laman and Lemuel partook not of the fruit, said my father.
+        <br>36 And it came to pass after my father had spoken all the words of his dream or vision, which were many, he
+        said unto us, because of these things which he saw in a vision, he exceedingly feared for Laman and Lemuel; yea,
+        he feared lest they should be cast off from the presence of the Lord.
+        <br>37 And he did exhort them then with all the feeling of a tender parent, that they would hearken to his
+        words, that perhaps the Lord would be merciful to them, and not cast them off; yea, my father did preach unto
+        them.
+        <br>38 And after he had preached unto them, and also prophesied unto them of many things, he bade them to keep
+        the commandments of the Lord; and he did cease speaking unto them.
+    </p>
+    <label for="1Nephi11" style="font-size: x-large;">1 Nephi Chapter 11</label><br>
+    <p id="1Nephi11">
+        <br>1 For it came to pass after I had desired to know the things that my father had seen, and believing that the
+        Lord was able to make them known unto me, as I sat pondering in mine heart I was caught away in the Spirit of
+        the Lord, yea, into an exceedingly high mountain, which I never had before seen, and upon which I never had
+        before set my foot.
+        <br>2 And the Spirit said unto me: Behold, what desirest thou?
+        <br>3 And I said: I desire to behold the things which my father saw.
+        <br>4 And the Spirit said unto me: Believest thou that thy father saw the tree of which he hath spoken?
+        <br>5 And I said: Yea, thou knowest that I believe all the words of my father.
+        <br>6 And when I had spoken these words, the Spirit cried with a loud voice, saying: Hosanna to the Lord, the
+        most high God; for he is God over all the earth, yea, even above all. And blessed art thou, Nephi, because thou
+        believest in the Son of the most high God; wherefore, thou shalt behold the things which thou hast desired.
+        <br>7 And behold this thing shall be given unto thee for a sign, that after thou hast beheld the tree which bore
+        the fruit which thy father tasted, thou shalt also behold a man descending out of heaven, and him shall ye
+        witness; and after ye have witnessed him ye shall bear record that it is the Son of God.
+        <br>8 And it came to pass that the Spirit said unto me: Look! And I looked and beheld a tree; and it was like
+        unto the tree which my father had seen; and the beauty thereof was far beyond, yea, exceeding of all beauty; and
+        the whiteness thereof did exceed the whiteness of the driven snow.
+        <br>9 And it came to pass after I had seen the tree, I said unto the Spirit: I behold thou hast shown unto me
+        the tree which is precious above all.
+        <br>10 And he said unto me: What desirest thou?
+        <br>11 And I said unto him: To know the interpretation thereof—for I spake unto him as a man speaketh; for I
+        beheld that he was in the form of a man; yet nevertheless, I knew that it was the Spirit of the Lord; and he
+        spake unto me as a man speaketh with another.
+        <br>12 And it came to pass that he said unto me: Look! And I looked as if to look upon him, and I saw him not;
+        for he had gone from before my presence.
+        <br>13 And it came to pass that I looked and beheld the great city of Jerusalem, and also other cities. And I
+        beheld the city of Nazareth; and in the city of Nazareth I beheld a virgin, and she was exceedingly fair and
+        white.
+        <br>14 And it came to pass that I saw the heavens open; and an angel came down and stood before me; and he said
+        unto me: Nephi, what beholdest thou?
+        <br>15 And I said unto him: A virgin, most beautiful and fair above all other virgins.
+        <br>16 And he said unto me: Knowest thou the condescension of God?
+        <br>17 And I said unto him: I know that he loveth his children; nevertheless, I do not know the meaning of all
+        things.
+        <br>18 And he said unto me: Behold, the virgin whom thou seest is the mother of the Son of God, after the manner
+        of the flesh.
+        <br>19 And it came to pass that I beheld that she was carried away in the Spirit; and after she had been carried
+        away in the Spirit for the space of a time the angel spake unto me, saying: Look!
+        <br>20 And I looked and beheld the virgin again, bearing a child in her arms.
+        <br>21 And the angel said unto me: Behold the Lamb of God, yea, even the Son of the Eternal Father! Knowest thou
+        the meaning of the tree which thy father saw?
+        <br>22 And I answered him, saying: Yea, it is the love of God, which sheddeth itself abroad in the hearts of the
+        children of men; wherefore, it is the most desirable above all things.
+        <br>23 And he spake unto me, saying: Yea, and the most joyous to the soul.
+        <br>24 And after he had said these words, he said unto me: Look! And I looked, and I beheld the Son of God going
+        forth among the children of men; and I saw many fall down at his feet and worship him.
+        <br>25 And it came to pass that I beheld that the rod of iron, which my father had seen, was the word of God,
+        which led to the fountain of living waters, or to the tree of life; which waters are a representation of the
+        love of God; and I also beheld that the tree of life was a representation of the love of God.
+        <br>26 And the angel said unto me again: Look and behold the condescension of God!
+        <br>27 And I looked and beheld the Redeemer of the world, of whom my father had spoken; and I also beheld the
+        prophet who should prepare the way before him. And the Lamb of God went forth and was baptized of him; and after
+        he was baptized, I beheld the heavens open, and the Holy Ghost come down out of heaven and abide upon him in the
+        form of a dove.
+        <br>28 And I beheld that he went forth ministering unto the people, in power and great glory; and the multitudes
+        were gathered together to hear him; and I beheld that they cast him out from among them.
+        <br>29 And I also beheld twelve others following him. And it came to pass that they were carried away in the
+        Spirit from before my face, and I saw them not.
+        <br>30 And it came to pass that the angel spake unto me again, saying: Look! And I looked, and I beheld the
+        heavens open again, and I saw angels descending upon the children of men; and they did minister unto them.
+        <br>31 And he spake unto me again, saying: Look! And I looked, and I beheld the Lamb of God going forth among
+        the children of men. And I beheld multitudes of people who were sick, and who were afflicted with all manner of
+        diseases, and with devils and unclean spirits; and the angel spake and showed all these things unto me. And they
+        were healed by the power of the Lamb of God; and the devils and the unclean spirits were cast out.
+        <br>32 And it came to pass that the angel spake unto me again, saying: Look! And I looked and beheld the Lamb of
+        God, that he was taken by the people; yea, the Son of the everlasting God was judged of the world; and I saw and
+        bear record.
+        <br>33 And I, Nephi, saw that he was lifted up upon the cross and slain for the sins of the world.
+        <br>34 And after he was slain I saw the multitudes of the earth, that they were gathered together to fight
+        against the apostles of the Lamb; for thus were the twelve called by the angel of the Lord.
+        <br>35 And the multitude of the earth was gathered together; and I beheld that they were in a large and spacious
+        building, like unto the building which my father saw. And the angel of the Lord spake unto me again, saying:
+        Behold the world and the wisdom thereof; yea, behold the house of Israel hath gathered together to fight against
+        the twelve apostles of the Lamb.
+        <br>36 And it came to pass that I saw and bear record, that the great and spacious building was the pride of the
+        world; and it fell, and the fall thereof was exceedingly great. And the angel of the Lord spake unto me again,
+        saying: Thus shall be the destruction of all nations, kindreds, tongues, and people, that shall fight against
+        the twelve apostles of the Lamb.
+    </p>
+
+</body>
+
+</html>
