@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  ​
+  <script>
+    /**** Card objects for use in card decks *****/
+    class Card {
+      suite;
+      face;
+
+      constructor(suiteIn, faceIn) {
+        this.suite = suiteIn;
+        this.face = faceIn;
+      }
+    }
+
+    /**** CardDeck contains an array of Card objects *****/
+    class CardDeck {
+
+      cards;
+
+      newDeck() {
+        this.cards = [];
+        let suite = ["H", "D", "C", "S"];
+        let face = "A 2 3 4 5 6 7 8 9 10 J Q K ";
+        for (let i = 0; i < suite.length; i++) {
+          for (let j = 0; j < 26; j++) {
+            this.cards.push(new Card(suite[i], face.substr(j++, 2).trim()));
+          }
+        }
+      }
+
+      shuffle() {
+        const mid = Math.floor(this.cards.length / 2)
+        const deck_a = this.cards.slice(0, mid)
+        const deck_b = this.cards.slice(mid)
+        const new_dec = []
+
+        while (deck_a[0] && deck_b[0]) {
+          let t = Math.ceil(Math.random()*2)
+          console.log(t)
+          if (t % 2) {
+            new_dec.push(deck_a.pop())
+          } else {
+            new_dec.push(deck_b.pop())
+          }
+        }
+        
+        console.log(deck_a, deck_b)
+        const arr = [...new_dec, ...deck_a, ...deck_b]
+        console.log(arr)
+        return arr
+      }
+    }
+
+    var deck = new CardDeck();
+    deck.newDeck();
+    deck.shuffle();
+    document.write(JSON.stringify(deck.cards));
+
+  </script>
+
+</body>
+
+</html>

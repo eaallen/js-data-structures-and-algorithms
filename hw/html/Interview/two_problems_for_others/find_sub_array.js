@@ -3,28 +3,31 @@ class SubArrayMachine {
     this.array = arr
   }
 
-  isSubArray(sub_arr) {
-    let is_sub = false
+  isSubArray(sub_arr, array = this.array) {
+    // O(n^2) approch
+    let start_idx = 0
+    for (let i_sub = 0; i_sub < sub_arr.length; i_sub++) {
+      const item_sub = sub_arr[i_sub]
 
-    for (let i = 0; i < this.array.length; i++) {
-      // we found the first match
-      if (this.array[i] === sub_arr[0]) {
-        for (let j = 1; j < sub_arr.length; j++) {
-          let k = j + i
-          if (this.array[k] === sub_arr[j]) {
-            is_sub = true
-          } else {
-            is_sub = false
-            break
-          }
+      for (let index = start_idx; index < array.length; index++) {
+        const element = array[index];
+        if (item_sub === element) {
+          // item_sub is a sub element of array
+          start_idx = index 
+          break
+        }
+
+        if (index === array.length - 1) {
+          // we are at the end of the over array and hve not found any match so this must 
+          // return false
+          return false
         }
       }
     }
-
-    return is_sub
-    // find index of midle ,then expand outward from there
+    return true
   }
 }
 
 const saw = new SubArrayMachine([1, 2, 3, 4, 5, 6, 7, 8, 9])
-console.log(saw.isSubArray([2, 3, 4, 2]))
+console.log(saw.isSubArray([2, 3, 4,23]))
+
