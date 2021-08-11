@@ -25,7 +25,7 @@
     <p id="wordCount" style="font-weight:bold;"></p>
     <br>
     <script>
-                class LinkedList {
+        class LinkedList {
             constructor() {
                 this.head = null
                 this.tail = null
@@ -58,10 +58,10 @@
                 this.size++;
             }
 
-            search(str){
+            search(str) {
                 let node = this.head
-                while(node){
-                    if(node.data[0]===str){
+                while (node) {
+                    if (node.data[0] === str) {
                         return node.data
                     }
                     node = node.next
@@ -173,7 +173,7 @@
                 let _key = wordCountArray[i][0]
                 let _value = wordCountArray[i][1]
                 hashPut(_key, _value)
-                
+
                 ll.insertAtHead(wordCountArray[i])
 
             }
