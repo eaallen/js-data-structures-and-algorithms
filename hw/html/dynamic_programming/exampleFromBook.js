@@ -3,6 +3,8 @@
  * the speed of your algorithm
  ************************************************************/
 
+const { count } = require("console")
+
 
 // Fibonacci Example:
 
@@ -68,10 +70,32 @@ function knapsack(index, weights, values, target) {
   return result
 }
 
+function knapsackDP(index, weights, values, target, matrix) {
+  let result = 0
+  let key = index + "-" + target
+  if (matrix[key]) {
+    return matrix[key]
+  }
+
+  if (index <= -1 || target <= 0) {
+    result = 0
+  } else if (weights[index] > target) {
+    result = knapsackDP(index - 1, weights, values, target, matrix)
+  } else {
+    let current = knapsackDP(index - 1, weights, values, target, matrix)
+    let current_plus_other =
+      values[index] + knapsackDP(index - 1, weights, values, target - weights[index], matrix)
+
+    result = Math.max(current, current_plus_other)
+  }
+  matrix[key] = result
+  return result
+}
+
 var weights = [1, 2, 4, 2, 5],
   values = [5, 3, 5, 3, 2],
   target = 10;
-// console.log(knapsack(values.length - 1, weights, values, target))
+console.log(knapsack(values.length - 1, weights, values, target))
 
 // add every number from range n-0
 function basicRecursion(n) {
@@ -81,7 +105,43 @@ function basicRecursion(n) {
   return n
 }
 
-console.log(basicRecursion(10))
+// console.log(basicRecursion(10))
+
+/**
+ * Given two sequences, find the length of the longest subsequence where a subsequence 
+ * is defined as a sequence that appears in relative order without necessarily being 
+ * contiguous. For example, sam, sie, aie, and so forth, are subsequences of sammie. 
+ * A string has 2^n possible subsequences where n is the length of the string.
+ */
+function subSequence(a, b, a_idx = a.length - 1, b_idx = b.length - 1, cache = {}) {
+  let result = 0
+  const key = a_idx + '-' + b_idx
+  if(cache[key]){
+    result = cache[key]
+    return result
+  }
+
+  if (a_idx < 0 || b_idx < 0) {
+    // base case
+    return 0
+  }
+
+  if (a[a_idx] === b[b_idx]) {
+    // we found a match
+    result = 1 + subSequence(a, b, a_idx - 1, b_idx - 1, cache)
+    cache[key] = result
+  } else {
+    result = Math.max(
+      subSequence(a, b, a_idx - 1, b_idx, cache),
+      subSequence(a, b, a_idx, b_idx - 1, cache)
+    )
+    cache[key] = result
+  }
+
+  return result
+}
+
+console.log(subSequence("AGGTXAB", "GXTXAYB"))
 
 
 
