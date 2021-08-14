@@ -8,8 +8,8 @@ function removeDuplicates(nums) {
 
     if (el === nums[j] && el === nums[j - 1]) {
       // we found a duplicate time to buble back up the row
+      nums[j] = '_'
       while (nums[j + 1] !== '_' && j < nums.length - 1) {
-        nums[j] = '_'
         swap(nums, j, j + 1)
         j++
       }
@@ -17,15 +17,17 @@ function removeDuplicates(nums) {
     }
 
   }
+  console.log(nums)
   return nums.length - k
 }
 
 function swap(arr, a_idx, b_idx) {
+  console.log(arr)
   const temp = arr[a_idx]
   arr[a_idx] = arr[b_idx]
   arr[b_idx] = temp
 }
 
-const a = removeDuplicates([1, 1, 1, 2, 2, 3,3,3])
+const a = removeDuplicates([1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3])
 
 console.log(a)
